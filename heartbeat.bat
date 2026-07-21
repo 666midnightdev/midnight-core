@@ -4,13 +4,13 @@
 cd /d C:\midnight_agent
 set OLLAMA_KEEP_ALIVE=3m
 
-REM Timestamp
-for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set dt=%%I
-set DATE_STAMP=%dt:~0,4%-%dt:~4,2%-%dt:~6,2%
-set TIME_STAMP=%dt:~8,2%:%dt:~10,2%
+REM Timestamp via PowerShell (reliable)
+for /f %%I in ('powershell -Command "Get-Date -Format 'yyyy-MM-dd HH:mm:ss'"') do set TIMESTAMP=%%I
+set DATE_STAMP=%TIMESTAMP:~0,10%
+set TIME_STAMP=%TIMESTAMP:~11,8%
 
-REM Update heartbeat file
-echo %DATE_STAMP% %TIME_STAMP% - Midnight Core active >> heartbeat.txt
+REM Update heartbeat file (UTF-8 tanpa BOM via PowerShell)
+powershell -Command "$u=[System.Text.UTF8Encoding]::new($false); $p='C:\midnight_agent\heartbeat.txt'; $o=[System.IO.File]::ReadAllText($p,$u) + ('%DATE_STAMP% %TIME_STAMP% - Midnight Core active' + [char]13 + [char]10); [System.IO.File]::WriteAllText($p,$o,$u)"
 
 REM Commit & push
 git add heartbeat.txt
