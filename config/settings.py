@@ -4,6 +4,9 @@ from typing import Optional, Dict, List
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+# Resolve project root relative to this file: <root>/config/settings.py
+PROJECT_ROOT = str(Path(__file__).resolve().parent.parent)
+
 class LLMSettings(BaseModel):
     url: str = Field(default="http://localhost:11434", description="Ollama API base URL")
     model: str = Field(default="midnight-agent", description="Model name for reasoning and chat")
@@ -21,9 +24,9 @@ class ExecutorSettings(BaseModel):
     auto_approve_level: str = Field(default="high", description="Auto-approval level: none, low, high")
 
 class StorageSettings(BaseModel):
-    base_dir: str = Field(default="C:/midnight_agent/storage", description="Base directory for persistence")
-    db_path: str = Field(default="C:/midnight_agent/storage/midnight_core.db", description="SQLite database path")
-    rag_dir: str = Field(default="C:/midnight_agent/storage/rag", description="RAG document upload storage")
+    base_dir: str = Field(default_factory=lambda: os.path.join(PROJECT_ROOT, "storage"), description="Base directory for persistence")
+    db_path: str = Field(default_factory=lambda: os.path.join(PROJECT_ROOT, "storage", "midnight_core.db"), description="SQLite database path")
+    rag_dir: str = Field(default_factory=lambda: os.path.join(PROJECT_ROOT, "storage", "rag"), description="RAG document upload storage")
 
 class DashboardSettings(BaseModel):
     host: str = Field(default="127.0.0.1", description="Dashboard binding host")

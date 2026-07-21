@@ -14,7 +14,7 @@ local_executor = LocalExecutor()
         "properties": {
             "path": {
                 "type": "string",
-                "description": "Absolute or relative file path to read (e.g. 'C:/midnight_agent/config.json')"
+                "description": "Absolute or relative file path to read (e.g. './config/settings.py')"
             }
         },
         "required": ["path"]

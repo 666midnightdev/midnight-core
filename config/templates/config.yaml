@@ -19,9 +19,9 @@ executor:
   auto_approve_level: "high"
 
 storage:
-  base_dir: "C:/midnight_agent/storage"
-  db_path: "C:/midnight_agent/storage/midnight_core.db"
-  rag_dir: "C:/midnight_agent/storage/rag"
+  base_dir: "./storage"
+  db_path: "./storage/midnight_core.db"
+  rag_dir: "./storage/rag"
 
 dashboard:
   host: "127.0.0.1"

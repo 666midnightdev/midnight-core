@@ -72,9 +72,9 @@ executor:
   auto_approve_level: "low" # options: none, low, high
 
 storage:
-  base_dir: "C:/midnight_agent/storage"
-  db_path: "C:/midnight_agent/storage/midnight_core.db"
-  rag_dir: "C:/midnight_agent/storage/rag"
+  base_dir: "./storage"
+  db_path: "./storage/midnight_core.db"
+  rag_dir: "./storage/rag"
 
 dashboard:
   host: "127.0.0.1"
@@ -100,7 +100,7 @@ Use `--auto-approve` to bypass CLI confirmation prompts for safe system inspect 
 
 ### Index files in RAG
 ```bash
-python run.py index "C:/midnight_agent/config/settings.py"
+python run.py index "./config/settings.py"
 ```
 
 ### List WSL Distros
