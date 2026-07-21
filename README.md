@@ -9,18 +9,12 @@
  /_/  /_/\_,_/\__/\___/\_,_/ /____/\___/ \___/\___/
 ```
 
-```
-contributions (14 hari terakhir)
-             Sn  Sl  Rb  Km  Jm  Sb  Mg  
-           ┌──┬──┬──┬──┬──┬──┬──┐
-sekarang   │▓▓│▓▓│░░│░░│░░│░░│░░│ (20-26 Jul)
-           └──┴──┴──┴──┴──┴──┴──┘
-           ┌──┬──┬──┬──┬──┬──┬──┐
-minggu lalu│░░│░░│░░│░░│▓▓│▓▓│▓▓│ (13-19 Jul)
-           └──┴──┴──┴──┴──┴──┴──┘
-           ░░ = 0   ▓▓ = 1+ commit
-           streak: 5 hari (17-21 Jul 2026)
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://ghchart.rshah.org/2da44e/666midnightdev" />
+  <source media="(prefers-color-scheme: light)" srcset="https://ghchart.rshah.org/2da44e/666midnightdev" />
+  <img alt="GitHub contribution graph" src="https://ghchart.rshah.org/2da44e/666midnightdev" />
+</picture>
+*Streak: 5 hari berturut-turut (17-21 Jul 2026)*
 
 ---
 
