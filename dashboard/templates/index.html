@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midnight Core - Command Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #09090b;
+            --bg-card: rgba(24, 24, 27, 0.7);
+            --border: rgba(39, 39, 42, 0.8);
+            --text: #f4f4f5;
+            --text-muted: #71717a;
+            --accent-crimson: #ef4444;
+            --accent-crimson-glow: rgba(239, 68, 68, 0.15);
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(239, 68, 68, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(239, 68, 68, 0.03) 0px, transparent 50%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header {
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: rgba(9, 9, 11, 0.5);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-crimson);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-crimson);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 15px var(--accent-crimson); }
+            100% { transform: scale(0.9); opacity: 0.6; }
+        }
+
+        .logo h1 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .system-badge {
+            font-size: 0.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 99px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-pulse {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+
+        main {
+            padding: 40px;
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+            height: 600px;
+        }
+
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .panel-header h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .panel-body {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Task Executor Widget */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .text-input {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--accent-crimson);
+            box-shadow: 0 0 8px var(--accent-crimson-glow);
+        }
+
+        .btn {
+            background: var(--accent-crimson);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn:hover {
+            background: #f43f5e;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Console Log Widget */
+        .terminal {
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            flex: 1;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 15px;
+            color: #38bdf8;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .terminal .log-row {
+            line-height: 1.5;
+        }
+
+        .terminal .log-row.error { color: #f87171; }
+        .terminal .log-row.success { color: #34d399; }
+        .terminal .log-row.info { color: #38bdf8; }
+
+        /* History lists */
+        .history-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .history-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .task-status {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .task-status.completed { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .task-status.failed { background: rgba(239, 68, 68, 0.15); color: var(--accent-crimson); }
+        .task-status.running { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .task-status.pending { background: rgba(113, 113, 122, 0.15); color: var(--text-muted); }
+
+        .task-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-dot"></div>
+            <h1>Midnight Core</h1>
+        </div>
+        <div class="system-badge">
+            <div class="badge-pulse"></div>
+            <span id="sys-status">System Telemetry: Online</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- Executer Panel -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Task Orchestration</h2>
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <label for="goal-input">Reasoning Goal or Security Assessment target</label>
+                    <input type="text" id="goal-input" class="text-input" placeholder="e.g. Scan ports 22, 80, 443 on 127.0.0.1 and review risks">
+                </div>
+                <button id="run-btn" class="btn">DISPATCH TASK</button>
+                
+                <h2 style="font-size: 0.85rem; color: var(--text-muted); margin-top: 15px; text-transform: uppercase;">Live Terminal Audit</h2>
+                <div id="terminal-console" class="terminal">
+                    <div class="log-row info">[SYSTEM] Initialization completed. Ready for dispatch...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task History Panel -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Recent Task Executions</h2>
+            </div>
+            <div id="history-container" class="panel-body">
+                <div class="history-item">
+                    <div class="history-top">
+                        <span class="task-title">Empty History</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const terminal = document.getElementById("terminal-console");
+        const goalInput = document.getElementById("goal-input");
+        const runBtn = document.getElementById("run-btn");
+        const historyContainer = document.getElementById("history-container");
+
+        function logToTerminal(message, type = "info") {
+            const row = document.createElement("div");
+            row.className = `log-row ${type}`;
+            row.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            terminal.appendChild(row);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        async function fetchHistory() {
+            try {
+                const response = await fetch("/api/tasks");
+                const tasks = await response.json();
+                historyContainer.innerHTML = "";
+                
+                if (tasks.length === 0) {
+                    historyContainer.innerHTML = '<div class="history-item"><div class="history-top"><span class="task-title">No tasks found.</span></div></div>';
+                    return;
+                }
+                
+                tasks.forEach(t => {
+                    const item = document.createElement("div");
+                    item.className = "history-item";
+                    
+                    const statusClass = t.status.toLowerCase();
+                    const formattedDate = t.updated_at ? new Date(t.updated_at).toLocaleString() : 'N/A';
+                    const taskGoal = (t.plan && t.plan.goal) ? t.plan.goal : (t.title || 'N/A');
+                    const summaryReport = (t.plan && t.plan.summary_report) ? t.plan.summary_report : null;
+                    
+                    item.innerHTML = `
+                        <div class="history-top">
+                            <span class="task-title">${t.title || 'Untitled'}</span>
+                            <span class="task-status ${statusClass}">${t.status}</span>
+                        </div>
+                        <div class="task-meta">ID: ${t.task_id} | Goal: ${taskGoal}</div>
+                        <div class="task-meta" style="margin-top: 5px;">Updated: ${formattedDate}</div>
+                        ${summaryReport ? `<a href="/api/reports/view?path=${encodeURIComponent(summaryReport)}" target="_blank" style="color: #ef4444; text-decoration: none; font-size: 0.8rem; font-weight: bold; margin-top: 5px;">View Compiled Report</a>` : ''}
+                    `;
+                    historyContainer.appendChild(item);
+                });
+            } catch (err) {
+                console.error("Error fetching tasks:", err);
+            }
+        }
+
+        runBtn.addEventListener("click", async () => {
+            const goal = goalInput.value.trim();
+            if (!goal) {
+                alert("Please enter a goal!");
+                return;
+            }
+
+            runBtn.disabled = true;
+            logToTerminal(`Dispatching: "${goal}"`, "info");
+            
+            try {
+                const response = await fetch("/api/tasks/run", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ goal: goal })
+                });
+                const data = await response.json();
+                
+                logToTerminal(`Task initiated. Task ID: ${data.task_id}`, "success");
+                logToTerminal(data.response, "success");
+                
+                goalInput.value = "";
+                fetchHistory();
+            } catch (err) {
+                logToTerminal(`Execution failed: ${err.message}`, "error");
+            } finally {
+                runBtn.disabled = false;
+            }
+        });
+
+        // Initialize
+        fetchHistory();
+        setInterval(fetchHistory, 5000);
+    </script>
+</body>
+</html>

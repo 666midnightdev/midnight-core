@@ -1,0 +1,3 @@
+from core_logging.logger import logger, setup_logger
+
+__all__ = ["logger", "setup_logger"]

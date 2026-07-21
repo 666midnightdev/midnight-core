@@ -1,0 +1,29 @@
+llm:
+  url: "http://localhost:11434"
+  model: "midnight-agent"
+  embedding_model: "nomic-embed-text"
+  temperature: 0.2
+  context_length: 8192
+
+executor:
+  default_wsl_distro: "kali-linux"
+  timeout_seconds: 120
+  allowed_commands:
+    - "nmap"
+    - "ping"
+    - "whoami"
+    - "uname"
+    - "ls"
+    - "cat"
+    - "grep"
+  auto_approve_level: "high"
+
+storage:
+  base_dir: "C:/midnight_agent/storage"
+  db_path: "C:/midnight_agent/storage/midnight_core.db"
+  rag_dir: "C:/midnight_agent/storage/rag"
+
+dashboard:
+  host: "127.0.0.1"
+  port: 8000
+  debug: false
