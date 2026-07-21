@@ -11,19 +11,15 @@
 
 ```
 contributions (14 hari terakhir)
-           Se     Se     Se     Se       
-           n  Sel Rab Kam  Jum  bt  Mig  
+             Sn  Sl  Rb  Km  Jm  Sb  Mg  
            ┌──┬──┬──┬──┬──┬──┬──┐
-sekarang   │░░│░░│░░│░░│░░│▓▓│▓▓│
-           │░░│░░│░░│░░│░░│▓▓│▓▓│
-           │░░│░░│░░│░░│░░│▓▓│▓▓│
+sekarang   │▓▓│▓▓│░░│░░│░░│░░│░░│ (20-26 Jul)
            └──┴──┴──┴──┴──┴──┴──┘
-           Sn  Sl  Rb  Km  Jm  Sb  Mg  
            ┌──┬──┬──┬──┬──┬──┬──┐
-minggu lalu│░░│░░│░░│░░│░░│▓▓│░░│
+minggu lalu│░░│░░│░░│░░│▓▓│▓▓│▓▓│ (13-19 Jul)
            └──┴──┴──┴──┴──┴──┴──┘
-           ░░ = 0   ▓▓ = 1-16 commit
-commit streak: 5 hari (17-21 Jul 2026)
+           ░░ = 0   ▓▓ = 1+ commit
+           streak: 5 hari (17-21 Jul 2026)
 ```
 
 ---
